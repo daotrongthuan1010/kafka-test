@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS kafka_db;
+
+USE kafka_db;
