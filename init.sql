@@ -1,3 +1,3 @@
-CREATE DATABASE IF NOT EXISTS kafka_db;
+CREATE DATABASE IF NOT EXISTS productdb;
 
-USE kafka_db;
+USE productdb;

@@ -24,8 +24,4 @@ public class ProductController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-
-    public ResponseEntity<List<Product>> findAll(@RequestBody CreateProductRequest request) {
-        productService.createProduct(request);
-    }
 }

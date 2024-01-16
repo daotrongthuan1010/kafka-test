@@ -39,24 +39,24 @@ public class ProductServiceIpml implements ProductService {
 
     }
 
-    public void findAll(List<Product> productList) {
-        for (Product product : productList) {
-            ProducerRecord<String, Product> record = new ProducerRecord<>("product-topic", product);
-            kafkaTemplate.send((Message<?>) record);
-        }
-        kafkaTemplate.flush();
-    }
-
-    private List<Product> productList = new ArrayList<>();
-
-    @KafkaListener(topics = "product-topic", groupId = "product-group")
-    public void consumeFromKafka(Product product) {
-        productList.add(product);
-    }
-
-    public List<Product> getAllProducts() {
-        return productList;
-    }
+//    public void findAll(List<Product> productList) {
+//        for (Product product : productList) {
+//            ProducerRecord<String, Product> record = new ProducerRecord<>("product-topic", product);
+//            kafkaTemplate.send((Message<?>) record);
+//        }
+//        kafkaTemplate.flush();
+//    }
+//
+//    private List<Product> productList = new ArrayList<>();
+//
+//    @KafkaListener(topics = "product-topic", groupId = "product-group")
+//    public void consumeFromKafka(Product product) {
+//        productList.add(product);
+//    }
+//
+//    public List<Product> getAllProducts() {
+//        return productList;
+//    }
 
 
 }

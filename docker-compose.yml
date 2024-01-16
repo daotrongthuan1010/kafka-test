@@ -1,30 +1,59 @@
 version: "3"
 services:
   zookeeper:
-    image: wurstmeister/zookeeper
+    container_name: my-zookeeper
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
     ports:
-      - "2181:2181"
+      - 2181:2181
 
   kafka:
-    image: wurstmeister/kafka
+    container_name: my-kafka
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
     ports:
-      - "9092:9092"
+      - 9092:9092
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+      KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'false'
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
   mysql-db:
-    image: mysql
-    container_name: post-article-mysql-container
+    image: mysql:8.0.20
+    container_name: my-mysql
     ports:
       - "3308:3306"
     environment:
       MYSQL_ROOT_PASSWORD: mk123654
-      MYSQL_DATABASE: kafka_db
+      MYSQL_DATABASE: post_article_db
     command: --default-authentication-plugin=mysql_native_password
     volumes:
       - mysql-data:/var/lib/mysql/
+    networks:
+      - db-network
+
+  spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: my-post-article-service
+    container_name: my-post-article-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql-db
+    networks:
+      - db-network
 
 volumes:
   mysql-data:
+
+networks:
+  db-network:
+    driver: bridge
