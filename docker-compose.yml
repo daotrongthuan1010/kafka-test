@@ -1,59 +1,60 @@
 version: "3"
 services:
-  zookeeper:
-    container_name: my-zookeeper
+  zookeeper-1:
+    container_name: ecommerce-zookeeper-1
     image: confluentinc/cp-zookeeper:latest
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     ports:
-      - 2181:2181
+      - 22181:2181
 
-  kafka:
-    container_name: my-kafka
+  zookeeper-2:
+    container_name: ecommerce-zookeeper-2
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 32181:2181
+
+  kafka-1:
+    container_name: ecommerce-kafka-1
     image: confluentinc/cp-kafka:latest
     depends_on:
-      - zookeeper
+      - zookeeper-1
+      - zookeeper-2
+
     ports:
-      - 9092:9092
+      - 29092:29092
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9093
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181,zookeeper-2:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-1:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  kafka-2:
+    container_name: ecommerce-kafka-2
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+    ports:
+      - 39092:39092
+    environment:
+      KAFKA_BROKER_ID: 2
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper-1:2181,zookeeper-2:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-2:9092,PLAINTEXT_HOST://localhost:39092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
   mysql-db:
-    image: mysql:8.0.20
-    container_name: my-mysql
+    image: mysql:8.0.30
+    container_name: mysql-container
     ports:
-      - "3308:3306"
+      - "3307:3306"
     environment:
       MYSQL_ROOT_PASSWORD: mk123654
-      MYSQL_DATABASE: post_article_db
-    command: --default-authentication-plugin=mysql_native_password
-    volumes:
-      - mysql-data:/var/lib/mysql/
-    networks:
-      - db-network
-
-  spring-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: my-post-article-service
-    container_name: my-post-article-service
-    ports:
-      - "8081:8081"
-    depends_on:
-      - mysql-db
-    networks:
-      - db-network
-
-volumes:
-  mysql-data:
-
-networks:
-  db-network:
-    driver: bridge
+      MYSQL_DATABASE: kafka_db
