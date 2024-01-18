@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.support.serializer.JsonSerde;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -119,6 +120,8 @@ public class KafkaConfig {
                 .withKeySerde(keySerde)
                 .withValueSerde(valueSerde));
     }
+
+
 
     @Bean
     public TaskExecutor taskExecutor() {
