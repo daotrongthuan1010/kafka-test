@@ -74,4 +74,10 @@ public class OrderController {
         it.forEachRemaining(kv -> orders.add(kv.value));
         return orders;
     }
+
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        kafkaTemplate.send(Topics.ORDERS, id, null);
+    }
 }
