@@ -3,6 +3,7 @@ package com.example.orderservice.service;
 import com.example.orderservice.domain.Order;
 import com.example.orderservice.domain.OrderSource;
 import com.example.orderservice.domain.OrderStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
  * @author ThuanDao1010
  */
 @Service
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService{
 
 
@@ -50,5 +52,6 @@ public class OrderServiceImpl implements OrderService{
         }
         return o;
     }
+
 
 }

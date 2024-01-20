@@ -55,4 +55,11 @@ public class OrderServiceImpl implements OrderService{
         }
 
     }
+
+    @Override
+    public void setOrderStatus(Order order, OrderStatus status) {
+        order.setStatus(status);
+        template.send(Topics.PAYMENTS, order.getId(), order);
+        log.info("Sent: {}", order);
+    }
 }
