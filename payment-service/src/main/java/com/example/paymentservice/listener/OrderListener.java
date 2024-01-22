@@ -29,4 +29,10 @@ public class OrderListener {
         else
             orderService.confirm(o);
     }
+
+    @KafkaListener(id = KafkaIds.ORDERS, topics = Topics.ORDERS)
+    void setOrderStatus(Order order, OrderStatus status) {
+        orderService.setOrderStatus(order, status);
+        log.info("Received: {}" , order);
+    }
 }

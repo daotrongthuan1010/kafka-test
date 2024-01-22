@@ -25,22 +25,22 @@ public class DevBootstrap implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Customer p1=Customer.builder().name("John Doe")
+        Customer p1=Customer.builder().name("Dao Thuan")
                 .amountAvailable(4000)
                 .amountReserved(0)
                 .build();
 
-        Customer p2=Customer.builder().name("Muhammad Ali")
+        Customer p2=Customer.builder().name("Ngoc Linh")
                 .amountAvailable(8000)
                 .amountReserved(0)
                 .build();
 
-        Customer p3=Customer.builder().name("Steve Jobs")
+        Customer p3=Customer.builder().name("Tram Anh")
                 .amountAvailable(1000)
                 .amountReserved(0)
                 .build();
 
-        Customer p4=Customer.builder().name("Bill Gits")
+        Customer p4=Customer.builder().name("Viet Nam")
                 .amountAvailable(2000)
                 .amountReserved(0)
                 .build();
