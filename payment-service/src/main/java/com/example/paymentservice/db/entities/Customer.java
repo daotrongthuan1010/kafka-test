@@ -21,6 +21,7 @@ public class Customer {
     private String name;
     private int amountAvailable;
     private int amountReserved;
+    private int amountSpent;
 
     @Override
     public String toString() {
@@ -29,6 +30,7 @@ public class Customer {
                 ", name='" + name + '\'' +
                 ", amountAvailable=" + amountAvailable +
                 ", amountReserved=" + amountReserved +
+                ", amountSpent=" + amountSpent +
                 '}';
     }
 }
