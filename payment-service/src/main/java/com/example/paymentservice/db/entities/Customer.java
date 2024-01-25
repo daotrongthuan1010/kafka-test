@@ -23,6 +23,16 @@ public class Customer {
     private int amountReserved;
     private int amountSpent;
 
+    public void reserve(int amount) {
+        amountAvailable -= amount;
+        amountReserved += amount;
+    }
+
+    public void confirm(int amount) {
+        amountReserved -= amount;
+        amountSpent += amount;
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
