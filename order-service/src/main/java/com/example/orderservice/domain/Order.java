@@ -14,6 +14,7 @@ public class Order {
     private Long productId;
     private int productCount;
     private int price;
+    private String description;
     private OrderStatus status;
     private OrderSource source;
 
@@ -25,6 +26,7 @@ public class Order {
                 ", productId=" + productId +
                 ", productCount=" + productCount +
                 ", price=" + price +
+                ", description='" + description + '\'' +
                 ", status=" + status +
                 ", source=" + source +
                 '}';
