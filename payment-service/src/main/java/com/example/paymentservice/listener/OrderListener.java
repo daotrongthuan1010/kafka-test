@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderListener {
 
-
     private final OrderService orderService;
 
     @Autowired
@@ -32,6 +31,7 @@ public class OrderListener {
 
     @KafkaListener(id = KafkaIds.ORDERS, topics = Topics.ORDERS)
     void setOrderStatus(Order order, OrderStatus status) {
+        log.info("Start: {}", status);
         orderService.setOrderStatus(order, status);
         log.info("Received: {}" , order);
     }
