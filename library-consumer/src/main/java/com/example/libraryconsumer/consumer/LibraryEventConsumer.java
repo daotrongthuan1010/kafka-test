@@ -11,7 +11,11 @@ public class LibraryEventConsumer {
 
     @KafkaListener(topics = {"library-events"})
     public void onMessage(ConsumerRecord<Integer, String> consumerRecord){
-        log.info("Call consumer start {}", consumerRecord);
+
+
+
+        log.info("Call consumer start {}", consumerRecord.serializedValueSize());
+        log.info("Call consumer start {}",consumerRecord.headers());
 
     }
 }

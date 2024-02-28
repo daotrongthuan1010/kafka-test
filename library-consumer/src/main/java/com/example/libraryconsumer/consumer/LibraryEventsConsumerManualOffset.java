@@ -1,6 +1,5 @@
 package com.example.libraryconsumer.consumer;
 
-import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.listener.AcknowledgingMessageListener;

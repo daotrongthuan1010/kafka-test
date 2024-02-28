@@ -1,7 +1,6 @@
 package com.example.libraryconsumer.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.kafka.ConcurrentKafkaListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +20,13 @@ public class ConsumerConfig {
     ConsumerFactory<Object, Object> kafkaConsumerFactory){
         ConcurrentKafkaListenerContainerFactory<Object, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
         configurer.configure(factory, kafkaConsumerFactory);
-        factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL);
+//        factory.getContainerProperties().setAckMode(ContainerProperties.AckMode.MANUAL);
+
+
+
+
+
+        factory.setConcurrency(3);
         return factory;
     }
 }
