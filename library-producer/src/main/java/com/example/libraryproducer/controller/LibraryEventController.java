@@ -5,6 +5,7 @@ import com.example.libraryproducer.entity.Book;
 import com.example.libraryproducer.entity.LibraryEvent;
 import com.example.libraryproducer.entity.LibraryEventType;
 import com.example.libraryproducer.producer.LibraryEventsProducer;
+import com.example.libraryproducer.producer.LibraryObjectProducer;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,8 @@ import java.util.concurrent.TimeoutException;
 public class LibraryEventController {
 
     private final LibraryEventsProducer producer;
+
+    private final LibraryObjectProducer libraryObjectProducer;
 
     @PostMapping("/create")
     public ResponseEntity<LibraryDto> createLibraryEvent(@RequestBody LibraryEvent libraryEvent) throws JsonProcessingException {
@@ -66,6 +69,23 @@ public class LibraryEventController {
         log.info("libraryEvent start: {}",libraryEvent);
 
         producer.sendMail3(libraryEvent);
+
+        LibraryDto libraryDto = new LibraryDto(
+                String.valueOf(libraryEvent.libraryEventId()),
+                libraryEvent.libraryEventType(),
+                libraryEvent.book());
+
+        log.info("Success send producer !!!");
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(libraryDto);
+    }
+
+    @PostMapping("/create4")
+    public ResponseEntity<LibraryDto> createLibraryEvent4(@RequestBody LibraryEvent libraryEvent) throws JsonProcessingException {
+
+        log.info("libraryEvent start: {}",libraryEvent);
+
+        libraryObjectProducer.sendMailTest(libraryEvent);
 
         LibraryDto libraryDto = new LibraryDto(
                 String.valueOf(libraryEvent.libraryEventId()),
