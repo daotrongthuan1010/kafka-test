@@ -13,6 +13,7 @@ public class LibraryEventsConsumerManualOffset implements AcknowledgingMessageLi
     @KafkaListener(topics = {"library-events"})
     public void onMessage(ConsumerRecord<Integer, String> data, Acknowledgment acknowledgment) {
         log.info("Call consumer start {}", data);
+        log.info("Call consumer start {}", data);
         acknowledgment.acknowledge();
     }
 
